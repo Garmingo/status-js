@@ -51,10 +51,10 @@ export class StatusAPI {
      */
     searchMonitors: async (
       search: {
-        query: string;
-        status: "online" | "offline";
-        regions: StatusRegion[];
-        types: MonitorType[];
+        query?: string;
+        status?: "online" | "offline";
+        regions?: StatusRegion[];
+        types?: MonitorType[];
       },
       limit?: number,
       page?: number
