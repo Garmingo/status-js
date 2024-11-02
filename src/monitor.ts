@@ -608,7 +608,7 @@ export async function getMonitorUptime(
     }
 > {
   const searchParams = new URLSearchParams();
-  if (timespan) searchParams.append("timespan", timespan);
+  searchParams.append("timespan", timespan);
 
   const response = await fetch(
     BASE_URL +
@@ -683,7 +683,7 @@ export async function getMonitorResponseTime(
     }
 > {
   const searchParams = new URLSearchParams();
-  if (timespan) searchParams.append("timespan", timespan);
+  searchParams.append("timespan", timespan);
 
   const response = await fetch(
     BASE_URL +
