@@ -889,6 +889,7 @@ export async function deleteMonitor(
 /**
  * Send a Heartbeat to the Monitor.
  * @param token - Heartbeat token.
+ * @param fail - Whether to fail the Monitor.
  *
  * @remarks
  * This function is used to send a heartbeat to the Monitor.
