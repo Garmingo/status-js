@@ -74,6 +74,116 @@ describe("Retrieve Monitors List", () => {
   });
 });
 
+describe("Search Monitors", () => {
+  test("Search for monitors", async () => {
+    const result = await statusAPI.monitors.searchMonitors("test query");
+
+    expect(result.success).toBe(true);
+  });
+
+  test("Fail when limit is not a number", async () => {
+    const result = await statusAPI.monitors.searchMonitors(
+      "test",
+      "test" as unknown as number
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when page is not a number", async () => {
+    const result = await statusAPI.monitors.searchMonitors(
+      "test",
+      undefined,
+      "test" as unknown as number
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when limit is less than 1", async () => {
+    const result = await statusAPI.monitors.searchMonitors("test", -1);
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when page is less than 1", async () => {
+    const result = await statusAPI.monitors.searchMonitors(
+      "test",
+      undefined,
+      -1
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when query is empty", async () => {
+    const result = await statusAPI.monitors.searchMonitors("");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when query is too long", async () => {
+    const result = await statusAPI.monitors.searchMonitors("a".repeat(256));
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when query is too short", async () => {
+    const result = await statusAPI.monitors.searchMonitors("a");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Result is empty when page is too high", async () => {
+    const result = await statusAPI.monitors.searchMonitors(
+      "test",
+      undefined,
+      1000000
+    );
+
+    expect(result.success).toBe(true);
+    if (!result.success) {
+      return;
+    }
+    expect(result.data.monitors).toHaveLength(0);
+  });
+});
+
 test("Get a list of monitors", async () => {
   const statusAPI = new StatusAPI(process.env.API_KEY as string);
 
