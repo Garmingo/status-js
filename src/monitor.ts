@@ -734,10 +734,13 @@ export async function createMonitor(
 ): Promise<
   | {
       success: true;
-      /**
-       * ID of the created Monitor.
-       */
-      data: string;
+
+      data: {
+        /**
+         * ID of the created Monitor.
+         */
+        id: string;
+      };
     }
   | {
       success: false;
@@ -745,10 +748,38 @@ export async function createMonitor(
       errorCode: ERROR_CODE;
     }
 > {
+  const response = await fetch(BASE_URL + "/monitors", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+    body: JSON.stringify(monitor),
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
   return {
-    success: false,
-    message: "Not implemented",
-    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
+    success: true,
+    data: responseData.data,
   };
 }
 
