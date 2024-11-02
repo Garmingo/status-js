@@ -397,3 +397,92 @@ describe("Retrieve Monitor Uptime", () => {
     expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
   });
 });
+
+describe("Retrieve Monitor Response Time", () => {
+  test("Get response time for a monitor", async () => {
+    const result = await statusAPI.monitors.getAll();
+
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
+
+    const monitor = result.data.monitors[0];
+
+    const responseTimeResult = await statusAPI.monitors.getResponseTime(
+      monitor.id,
+      "24h"
+    );
+
+    expect(responseTimeResult.success).toBe(true);
+
+    if (!responseTimeResult.success) {
+      return;
+    }
+
+    expect(responseTimeResult.data).toBeDefined();
+    expect(responseTimeResult.data.min).toBeDefined();
+    expect(responseTimeResult.data.max).toBeDefined();
+    expect(responseTimeResult.data.avg).toBeDefined();
+    // Be a number
+    expect(responseTimeResult.data.min).toEqual(expect.any(Number));
+    expect(responseTimeResult.data.max).toEqual(expect.any(Number));
+    expect(responseTimeResult.data.avg).toEqual(expect.any(Number));
+  });
+
+  test("Fail when ID is empty", async () => {
+    const result = await statusAPI.monitors.getResponseTime(
+      null as unknown as string,
+      "24h"
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when ID does not exist", async () => {
+    const result = await statusAPI.monitors.getResponseTime(
+      "313233343536373839303132",
+      "24h"
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+
+  test("Fail when ID is too long", async () => {
+    const result = await statusAPI.monitors.getResponseTime(
+      "a".repeat(256),
+      "24h"
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+
+    expect(
+      [ERROR_CODE.BAD_REQUEST, ERROR_CODE.NOT_FOUND].includes(result.errorCode)
+    ).toBe(true);
+  });
+
+  test("Fail when ID is too short", async () => {
+    const result = await statusAPI.monitors.getResponseTime("a", "24h");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+});
