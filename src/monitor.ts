@@ -515,6 +515,76 @@ export async function getMonitorEvents(
 }
 
 /**
+ * Get uptime for a Monitor.
+ * @param id - ID of the Monitor.
+ * @param timespan - Timespan to get the uptime for.
+ */
+export async function getMonitorUptime(
+  apiKey: string,
+  id: string,
+  timespan: "24h" | "7d" | "30d" | "90d"
+): Promise<
+  | {
+      success: true;
+      /**
+       * Uptime percentage in percent.
+       */
+      data: number;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
+  };
+}
+
+/**
+ * Get response time for a Monitor.
+ * @param id - ID of the Monitor.
+ * @param timespan - Timespan to calculate the get time for.
+ */
+export async function getMonitorResponseTime(
+  apiKey: string,
+  id: string,
+  timespan: "24h" | "7d" | "30d" | "90d"
+): Promise<
+  | {
+      success: true;
+      data: {
+        /**
+         * Minimum response time in milliseconds.
+         */
+        min: number;
+        /**
+         * Maximum response time in milliseconds.
+         */
+        max: number;
+        /**
+         * Average response time in milliseconds.
+         */
+        avg: number;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
+  };
+}
+
+/**
  * Create a new Monitor.
  * @param monitor - Monitor to create.
  */
