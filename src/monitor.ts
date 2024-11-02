@@ -351,7 +351,12 @@ export async function getAllMonitors(
  */
 export async function searchMonitors(
   apiKey: string,
-  query: string,
+  search: {
+    query: string;
+    status: "online" | "offline";
+    regions: StatusRegion[];
+    types: string[];
+  },
   limit?: number,
   page?: number
 ): Promise<
@@ -375,7 +380,10 @@ export async function searchMonitors(
     }
 > {
   const searchParams = new URLSearchParams();
-  searchParams.append("query", query);
+  searchParams.append("query", search.query);
+  searchParams.append("status", search.status);
+  searchParams.append("regions", JSON.stringify(search.regions));
+  searchParams.append("types", JSON.stringify(search.types));
   if (limit) searchParams.append("limit", limit.toString());
   if (page) searchParams.append("page", page.toString());
 
