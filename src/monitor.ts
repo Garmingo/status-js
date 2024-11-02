@@ -9,6 +9,33 @@ import { ERROR_CODE } from "./error";
 import { StatusEvent } from "./event";
 
 /**
+ * Build a Monitor object from a raw object.
+ * @param rawObject - Raw object to build the Monitor from.
+ * @returns Monitor object.
+ */
+function buildMonitorObject(rawObject: any): Monitor {
+  return {
+    id: rawObject.id,
+    displayName: rawObject.displayName,
+    ttl: rawObject.ttl,
+    type: rawObject.type,
+    region: rawObject.region,
+    enabled: rawObject.enabled,
+    retries: rawObject.retries,
+    keywords: rawObject.keywords,
+    metadata: rawObject.metadata,
+    settings: rawObject.settings,
+    lastCheck: new Date(rawObject.lastCheck),
+    proxyType: rawObject.proxyType,
+    proxyHost: rawObject.proxyHost,
+    proxyPort: rawObject.proxyPort,
+    proxyUsername: rawObject.proxyUsername,
+    proxyPassword: rawObject.proxyPassword,
+    currentStatus: rawObject.currentStatus,
+  };
+}
+
+/**
  * Geographical region from where the Monitor will be checked.
  */
 export type StatusRegion =
