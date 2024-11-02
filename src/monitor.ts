@@ -369,7 +369,7 @@ export async function getAllMonitors(
   return {
     success: true,
     data: {
-      monitors: responseData.data.monitors,
+      monitors: responseData.data.monitors.map(buildMonitorObject),
       count: responseData.data.count,
     },
   };
@@ -457,7 +457,7 @@ export async function searchMonitors(
   return {
     success: true,
     data: {
-      monitors: responseData.data.monitors,
+      monitors: responseData.data.monitors.map(buildMonitorObject),
       count: responseData.data.count,
     },
   };
@@ -511,7 +511,7 @@ export async function getMonitor(
 
   return {
     success: true,
-    data: responseData.data,
+    data: buildMonitorObject(responseData.data),
   };
 }
 
