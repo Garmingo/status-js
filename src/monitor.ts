@@ -21,6 +21,11 @@ export type StatusRegion =
   | "us-west";
 
 /**
+ * Type of monitored Service.
+ */
+export type MonitorType = "http" | "icmp" | "tcp" | "udp" | "heartbeat";
+
+/**
  * Proxy Types available for the Monitor.
  */
 export type Proxy = "http" | "https" | "socks5";
