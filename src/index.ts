@@ -5,7 +5,7 @@
  */
 
 import { getEvent } from "./event";
-import { getAllIncidents } from "./incident";
+import { getAllIncidents, getIncident } from "./incident";
 import {
   getAllMonitors,
   getMonitorEvents,
@@ -203,7 +203,13 @@ export class StatusAPI {
       return await getAllIncidents(this.apiKey, limit, page);
     },
 
-    get: async () => {},
+    /**
+     * Get an Incident by its ID.
+     * @param id - ID of the Incident.
+     */
+    get: async (id: string) => {
+      return await getIncident(this.apiKey, id);
+    },
 
     create: async () => {},
 
