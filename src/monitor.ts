@@ -360,7 +360,7 @@ export async function searchMonitors(
     query: string;
     status: "online" | "offline";
     regions: StatusRegion[];
-    types: string[];
+    types: MonitorType[];
   },
   limit?: number,
   page?: number
