@@ -500,6 +500,7 @@ describe("Monitor CRUD Lifecycle", () => {
       displayName: "Test Monitor",
       region: "eu-central",
       retries: 3,
+      ttl: 60,
       type: "http",
       settings: {
         url: "https://example.com",
@@ -509,6 +510,8 @@ describe("Monitor CRUD Lifecycle", () => {
         },
       },
     });
+
+    console.log(createResult);
 
     expect(createResult.success).toBe(true);
 
