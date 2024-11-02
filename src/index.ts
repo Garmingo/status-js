@@ -16,6 +16,8 @@ import {
   searchMonitors,
   StatusRegion,
   MonitorType,
+  getMonitorUptime,
+  getMonitorResponseTime,
 } from "./monitor";
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
@@ -76,6 +78,27 @@ export class StatusAPI {
      */
     getEvents: async (id: string, limit?: number, page?: number) => {
       return await getMonitorEvents(this.apiKey, id, limit, page);
+    },
+
+    /**
+     * Get uptime for a Monitor.
+     * @param id - ID of the Monitor.
+     * @param timespan - Timespan to get the uptime for.
+     */
+    getUptime: async (id: string, timespan: "24h" | "7d" | "30d" | "90d") => {
+      return await getMonitorUptime(this.apiKey, id, timespan);
+    },
+
+    /**
+     * Get response time for a Monitor.
+     * @param id - ID of the Monitor.
+     * @param timespan - Timespan to calculate the get time for.
+     */
+    getResponseTime: async (
+      id: string,
+      timespan: "24h" | "7d" | "30d" | "90d"
+    ) => {
+      return await getMonitorResponseTime(this.apiKey, id, timespan);
     },
 
     /**
