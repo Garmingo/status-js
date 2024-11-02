@@ -885,3 +885,63 @@ export async function deleteMonitor(
     success: true,
   };
 }
+
+/**
+ * Send a Heartbeat to the Monitor.
+ * @param token - Heartbeat token.
+ *
+ * @remarks
+ * This function is used to send a heartbeat to the Monitor.
+ * It only works for Monitors of type `heartbeat`.
+ *
+ * The heartbeat token is generated when the Monitor is created and can be obtained from the Dashboard.
+ */
+export async function sendHeartbeat(
+  apiKey: string,
+  token: string,
+  fail = false
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(
+    BASE_URL + `/heartbeat/${token}${fail ? "/fail" : ""}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        [HEADER_NAME]: apiKey,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
