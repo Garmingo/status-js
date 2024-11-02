@@ -10,7 +10,7 @@ const statusAPI = new StatusAPI(process.env.API_KEY as string);
 
 describe("Get specific Event", () => {
   test("Get Event by ID", async () => {
-    const EVENT_ID = "670969d8a7221ba8f0ad8f0f";
+    const EVENT_ID = process.env.WORKING_EVENT_ID as string;
     const eventResponse = await statusAPI.events.get(EVENT_ID);
 
     expect(eventResponse.success).toBe(true);
