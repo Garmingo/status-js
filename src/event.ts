@@ -4,6 +4,8 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
+import { MonitorStatus } from ".";
+
 /**
  * Status Event Interface.
  */
@@ -22,7 +24,7 @@ export type StatusEvent = {
    * Status of the Event.
    * Whether the Monitor is online or offline.
    */
-  status: boolean;
+  status: MonitorStatus;
 
   /**
    * Timestamp of the Event.

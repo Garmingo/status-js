@@ -22,6 +22,12 @@ import {
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
 export const HEADER_NAME = "x-garmingo-status-key";
+export const MonitorStatus = {
+  ONLINE: true,
+  OFFLINE: false,
+} as const;
+
+export type MonitorStatus = (typeof MonitorStatus)[keyof typeof MonitorStatus];
 
 export class StatusAPI {
   private readonly apiKey: string;
