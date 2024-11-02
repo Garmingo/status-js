@@ -3,6 +3,9 @@
  *   All rights reserved.
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
+
+import { ERROR_CODE } from "./error";
+
 /**
  * Geographical region from where the Monitor will be checked.
  */
@@ -280,13 +283,13 @@ export async function getAllMonitors(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
 
@@ -305,13 +308,13 @@ export async function getMonitor(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
 
@@ -332,13 +335,13 @@ export async function getMonitorEvents(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
 
@@ -360,13 +363,13 @@ export async function createMonitor(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
 
@@ -386,13 +389,13 @@ export async function updateMonitor(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
 
@@ -410,12 +413,12 @@ export async function deleteMonitor(
   | {
       success: false;
       message: string;
-      errorCode: number;
+      errorCode: ERROR_CODE;
     }
 > {
   return {
     success: false,
     message: "Not implemented",
-    errorCode: 0,
+    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
   };
 }
