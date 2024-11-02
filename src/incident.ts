@@ -74,3 +74,24 @@ export type StatusIncident = {
    */
   metadata?: any;
 };
+
+/**
+ * Build an Incident Object from the API Response.
+ * @param incident - Incident Object from the API.
+ * @returns Incident Object.
+ */
+function buildIncidentObject(incident: any): StatusIncident {
+  return {
+    id: incident.id,
+    title: incident.title,
+    description: incident.description,
+    status: incident.status,
+    resolved: incident.resolved,
+    resolveWhenOnline: incident.resolve_when_online,
+    monitorIds: incident.monitor_ids,
+    eventIds: incident.event_ids,
+    start: new Date(incident.start),
+    end: incident.end ? new Date(incident.end) : undefined,
+    metadata: incident.metadata,
+  };
+}
