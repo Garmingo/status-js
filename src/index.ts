@@ -19,6 +19,7 @@ import {
   getMonitorUptime,
   getMonitorResponseTime,
   sendHeartbeat,
+  pauseMonitor,
 } from "./monitor";
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
@@ -145,6 +146,20 @@ export class StatusAPI {
      */
     sendHeartbeat: async (token: string, fail = false) => {
       return await sendHeartbeat(token, fail);
+    },
+
+    /**
+     * Temporarily pause a Monitor.
+     * @param id - ID of the Monitor.
+     * @param duration - Duration in seconds to pause the Monitor. 1 minute (60) minimum. 12 hours (43.200) maximum.
+     *
+     * @remarks
+     * This function is used to pause a Monitor for a specific duration.
+     * The Monitor will not be checked during this time.
+     * This is especially useful for maintenance or debugging purposes e.g. in CI/CD pipelines.
+     */
+    pause: async (id: string, duration: number) => {
+      return await pauseMonitor(this.apiKey, id, duration);
     },
   };
 }
