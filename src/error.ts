@@ -4,7 +4,7 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
-export enum ERROR_CODES {
+export enum ERROR_CODE {
   // 400er Codes
   /**
    * Bad Request (400)
