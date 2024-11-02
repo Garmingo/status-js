@@ -493,3 +493,100 @@ describe("Retrieve Monitor Response Time", () => {
     expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
   });
 });
+
+describe("Monitor CRUD Lifecycle", () => {
+  test("Create, Update, and Delete a Monitor", async () => {
+    const createResult = await statusAPI.monitors.create({
+      displayName: "Test Monitor",
+      region: "eu-central",
+      retries: 3,
+      type: "http",
+      settings: {
+        url: "https://example.com",
+        method: "GET",
+        headers: {
+          "User-Agent": "StatusAPI",
+        },
+      },
+    });
+
+    expect(createResult.success).toBe(true);
+
+    if (!createResult.success) {
+      return;
+    }
+
+    const monitor = createResult.data;
+
+    expect(monitor).toBeDefined();
+    expect(monitor.id).toBeDefined();
+
+    const updateResult = await statusAPI.monitors.update(monitor.id, {
+      displayName: "Updated Monitor",
+    });
+
+    expect(updateResult.success).toBe(true);
+
+    if (!updateResult.success) {
+      return;
+    }
+
+    const deleteResult = await statusAPI.monitors.delete(monitor.id);
+
+    expect(deleteResult.success).toBe(true);
+
+    const getMonitorResult = await statusAPI.monitors.get(monitor.id);
+
+    expect(getMonitorResult.success).toBe(false);
+  });
+
+  test("Fail when creating a Monitor with invalid data", async () => {
+    const createResult = await statusAPI.monitors.create({
+      name: "Test Monitor",
+      url: "example.com",
+      interval: 60,
+    } as any);
+
+    expect(createResult.success).toBe(false);
+
+    if (createResult.success) {
+      return;
+    }
+
+    expect(createResult.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when updating a Monitor with invalid data", async () => {
+    const getMonitorResult = await statusAPI.monitors.getAll();
+
+    if (!getMonitorResult.success) {
+      expect(getMonitorResult.success).toBe(true);
+      return;
+    }
+
+    const monitor = getMonitorResult.data.monitors[0];
+
+    const updateResult = await statusAPI.monitors.update(monitor.id, {
+      enabled: "Updated Monitor",
+    } as any);
+
+    expect(updateResult.success).toBe(false);
+
+    if (updateResult.success) {
+      return;
+    }
+
+    expect(updateResult.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when deleting a Monitor that does not exist", async () => {
+    const deleteResult = await statusAPI.monitors.delete("123");
+
+    expect(deleteResult.success).toBe(false);
+
+    if (deleteResult.success) {
+      return;
+    }
+    expect(deleteResult.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+});
