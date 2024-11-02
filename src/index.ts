@@ -14,6 +14,8 @@ import {
   updateMonitor,
   deleteMonitor,
   searchMonitors,
+  StatusRegion,
+  MonitorType,
 } from "./monitor";
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
@@ -47,8 +49,17 @@ export class StatusAPI {
      * @param page - Page number to return.
      * @returns All Monitors that match the search query.
      */
-    searchMonitors: async (query: string, limit?: number, page?: number) => {
-      return await searchMonitors(this.apiKey, query, limit, page);
+    searchMonitors: async (
+      search: {
+        query: string;
+        status: "online" | "offline";
+        regions: StatusRegion[];
+        types: MonitorType[];
+      },
+      limit?: number,
+      page?: number
+    ) => {
+      return await searchMonitors(this.apiKey, search, limit, page);
     },
 
     /**
