@@ -23,8 +23,12 @@ function buildMonitorObject(rawObject: any): Monitor {
     enabled: rawObject.enabled,
     retries: rawObject.retries,
     keywords: rawObject.keywords,
-    metadata: rawObject.metadata,
-    settings: rawObject.settings,
+    metadata: rawObject.metadata
+      ? new Map(Object.entries(rawObject.metadata))
+      : undefined,
+    settings: rawObject.settings
+      ? new Map(Object.entries(rawObject.settings))
+      : new Map(),
     lastCheck: new Date(rawObject.lastCheck),
     proxyType: rawObject.proxyType,
     proxyHost: rawObject.proxyHost,
@@ -105,12 +109,12 @@ export type Monitor = {
   /**
    * Additional metadata for the Monitor.
    */
-  metadata?: any;
+  metadata?: Map<string, any>;
 
   /**
    * Settings for the Monitor.
    */
-  settings: any;
+  settings: Map<string, any>;
 
   /**
    * Last time the Monitor was checked.
@@ -189,14 +193,9 @@ export type MonitorCreate = {
   keywords?: string[];
 
   /**
-   * Additional metadata for the Monitor.
-   */
-  metadata?: any;
-
-  /**
    * Settings for the Monitor.
    */
-  settings: any;
+  settings: Map<string, any>;
 
   /**
    * Type of the Proxy.
@@ -264,14 +263,9 @@ export type MonitorUpdate = {
   keywords?: string[];
 
   /**
-   * Additional metadata for the Monitor.
-   */
-  metadata?: any;
-
-  /**
    * Settings for the Monitor.
    */
-  settings?: any;
+  settings?: Map<string, any>;
 
   /**
    * Type of the Proxy.
