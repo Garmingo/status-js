@@ -34,3 +34,18 @@ export type StatusEvent = {
    */
   metadata: any;
 };
+
+/**
+ * Build an Event Object from the API Response.
+ * @param event - Event Object from the API.
+ * @returns Event Object.
+ */
+function buildEventObject(event: any): StatusEvent {
+  return {
+    id: event.id,
+    monitorId: event.monitor_id,
+    status: event.status,
+    timestamp: new Date(event.timestamp),
+    metadata: event.metadata,
+  };
+}
