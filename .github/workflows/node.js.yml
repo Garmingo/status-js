@@ -24,6 +24,7 @@ jobs:
         run: |
           touch .env
           echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo WORKING_EVENT_ID=${{ secrets.WORKING_EVENT_ID }} >> .env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
