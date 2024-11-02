@@ -4,6 +4,9 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
+import { BASE_URL, HEADER_NAME } from ".";
+import { ERROR_CODE } from "./error";
+
 /**
  * Status Incident.
  */
@@ -177,5 +180,81 @@ function buildIncidentObject(incident: any): StatusIncident {
     metadata: incident.metadata
       ? new Map(Object.entries(incident.metadata))
       : undefined,
+  };
+}
+
+/**
+ * Get all Incidents.
+ * @param limit - Number of Incidents to return.
+ * @param page - Page number to return.
+ * @returns All Incidents.
+ */
+export async function getAllIncidents(
+  apiKey: string,
+  limit?: number,
+  page?: number
+): Promise<
+  | {
+      success: true;
+      data: {
+        /**
+         * List of Incidents.
+         */
+        incidents: StatusIncident[];
+        /**
+         * Total number of Incidents.
+         */
+        count: number;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.append("limit", limit.toString());
+  if (page) searchParams.append("page", page.toString());
+
+  const response = await fetch(
+    BASE_URL +
+      "/incidents" +
+      (searchParams.size > 0 ? `?${searchParams.toString()}` : ""),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        [HEADER_NAME]: apiKey,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      incidents: responseData.data.incidents.map(buildIncidentObject),
+      count: responseData.data.count,
+    },
   };
 }
