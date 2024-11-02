@@ -343,11 +343,11 @@ export async function getAllMonitors(
 }
 
 /**
- * Get all Monitors.
+ * Search for Monitors.
  * @param query - Search query to filter Monitors.
  * @param limit - Number of Monitors to return.
  * @param page - Page number to return.
- * @returns All Monitors.
+ * @returns All Monitors that match the search query.
  */
 export async function searchMonitors(
   apiKey: string,
