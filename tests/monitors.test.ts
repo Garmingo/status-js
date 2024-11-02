@@ -171,7 +171,7 @@ describe("Search Monitors", () => {
 
   test("Result is empty when page is too high", async () => {
     const result = await statusAPI.monitors.searchMonitors(
-      "test",
+      "test query",
       undefined,
       1000000
     );
