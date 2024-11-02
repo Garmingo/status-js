@@ -76,14 +76,16 @@ describe("Retrieve Monitors List", () => {
 
 describe("Search Monitors", () => {
   test("Search for monitors", async () => {
-    const result = await statusAPI.monitors.searchMonitors("test query");
+    const result = await statusAPI.monitors.searchMonitors({
+      query: "test query",
+    });
 
     expect(result.success).toBe(true);
   });
 
   test("Fail when limit is not a number", async () => {
     const result = await statusAPI.monitors.searchMonitors(
-      "test",
+      {},
       "test" as unknown as number
     );
 
@@ -97,7 +99,7 @@ describe("Search Monitors", () => {
 
   test("Fail when page is not a number", async () => {
     const result = await statusAPI.monitors.searchMonitors(
-      "test",
+      {},
       undefined,
       "test" as unknown as number
     );
@@ -111,7 +113,7 @@ describe("Search Monitors", () => {
   });
 
   test("Fail when limit is less than 1", async () => {
-    const result = await statusAPI.monitors.searchMonitors("test", -1);
+    const result = await statusAPI.monitors.searchMonitors({}, -1);
 
     expect(result.success).toBe(false);
 
@@ -122,22 +124,7 @@ describe("Search Monitors", () => {
   });
 
   test("Fail when page is less than 1", async () => {
-    const result = await statusAPI.monitors.searchMonitors(
-      "test",
-      undefined,
-      -1
-    );
-
-    expect(result.success).toBe(false);
-
-    if (result.success) {
-      return;
-    }
-    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
-  });
-
-  test("Fail when query is empty", async () => {
-    const result = await statusAPI.monitors.searchMonitors("");
+    const result = await statusAPI.monitors.searchMonitors({}, undefined, -1);
 
     expect(result.success).toBe(false);
 
@@ -148,7 +135,9 @@ describe("Search Monitors", () => {
   });
 
   test("Fail when query is too long", async () => {
-    const result = await statusAPI.monitors.searchMonitors("a".repeat(256));
+    const result = await statusAPI.monitors.searchMonitors({
+      query: "a".repeat(256),
+    });
 
     expect(result.success).toBe(false);
 
@@ -159,7 +148,9 @@ describe("Search Monitors", () => {
   });
 
   test("Fail when query is too short", async () => {
-    const result = await statusAPI.monitors.searchMonitors("a");
+    const result = await statusAPI.monitors.searchMonitors({
+      query: "a",
+    });
 
     expect(result.success).toBe(false);
 
@@ -171,10 +162,12 @@ describe("Search Monitors", () => {
 
   test("Result is empty when page is too high", async () => {
     const result = await statusAPI.monitors.searchMonitors(
-      "test query",
+      {},
       undefined,
       1000000
     );
+
+    console.log(result);
 
     expect(result.success).toBe(true);
     if (!result.success) {
