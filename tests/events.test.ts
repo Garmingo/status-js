@@ -6,11 +6,6 @@
 import { StatusAPI } from "../src";
 import { ERROR_CODE } from "../src/error";
 
-/*
- *   Copyright (c) 2024 Garmingo UG (haftungsbeschraenkt)
- *   All rights reserved.
- *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
- */
 const statusAPI = new StatusAPI(process.env.API_KEY as string);
 
 describe("Get specific Event", () => {
