@@ -1,7 +1,7 @@
 {
-  "name": "npm-library-template",
+  "name": "@garmingo/status-js",
   "version": "1.0.0",
-  "description": "A simple base template to be used by various npm packages",
+  "description": "Garmingo Status API Wrapper written for NodeJS",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,7 @@
     "prepack": "npm run build"
   },
   "author": "Garmingo",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "jest": "^29.7.0",
