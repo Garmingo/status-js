@@ -4,7 +4,8 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
-import { MonitorStatus } from ".";
+import { BASE_URL, HEADER_NAME, MonitorStatus } from ".";
+import { ERROR_CODE } from "./error";
 
 /**
  * Status Event Interface.
@@ -49,5 +50,57 @@ export function buildEventObject(event: any): StatusEvent {
     status: event.status,
     timestamp: new Date(event.timestamp),
     metadata: event.metadata,
+  };
+}
+
+/**
+ * Get an Event by its ID.
+ * @param id - ID of the Event.
+ */
+export async function getEvent(
+  apiKey: string,
+  id: string
+): Promise<
+  | {
+      success: true;
+      data: StatusEvent;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + `/events/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+    data: buildEventObject(responseData.data),
   };
 }

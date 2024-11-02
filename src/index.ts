@@ -4,6 +4,7 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
+import { getEvent } from "./event";
 import {
   getAllMonitors,
   getMonitorEvents,
@@ -170,6 +171,20 @@ export class StatusAPI {
      */
     setStatus: async (id: string, status: MonitorStatus) => {
       return await setMonitorStatus(this.apiKey, id, status);
+    },
+  };
+
+  /**
+   * All Functions that can be performed related to Events.
+   */
+  public events = {
+    /**
+     * Get a specific Event by its ID.
+     * @param id - ID of the Event.
+     * @returns Event Object.
+     */
+    get: async (id: string) => {
+      return await getEvent(this.apiKey, id);
     },
   };
 }
