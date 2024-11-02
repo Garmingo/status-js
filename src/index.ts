@@ -211,3 +211,7 @@ export {
   Proxy,
   StatusRegion,
 } from "./monitor";
+
+export { StatusEvent } from "./event";
+
+export { StatusIncident } from "./incident";
