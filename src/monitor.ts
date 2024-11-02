@@ -6,7 +6,7 @@
 
 import { BASE_URL, HEADER_NAME } from ".";
 import { ERROR_CODE } from "./error";
-import { StatusEvent } from "./event";
+import { buildEventObject, StatusEvent } from "./event";
 
 /**
  * Build a Monitor object from a raw object.
@@ -578,7 +578,7 @@ export async function getMonitorEvents(
   return {
     success: true,
     data: {
-      events: responseData.data.events,
+      events: responseData.data.events.map(buildEventObject),
       count: responseData.data.count,
     },
   };
