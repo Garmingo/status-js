@@ -52,7 +52,7 @@ export type Monitor = {
   /**
    * Type of the Monitor.
    */
-  type: string;
+  type: MonitorType;
 
   /**
    * Geographical region from where the Monitor will be checked.
@@ -138,7 +138,7 @@ export type MonitorCreate = {
   /**
    * Type of the Monitor.
    */
-  type: string;
+  type: MonitorType;
 
   /**
    * Geographical region from where the Monitor will be checked.
@@ -213,7 +213,7 @@ export type MonitorUpdate = {
   /**
    * Type of the Monitor.
    */
-  type?: string;
+  type?: MonitorType;
 
   /**
    * Geographical region from where the Monitor will be checked.
