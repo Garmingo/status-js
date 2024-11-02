@@ -15,6 +15,9 @@ import {
   deleteMonitor,
 } from "./monitor";
 
+export const BASE_URL = "https://garmingo.com/api/status/v1";
+export const HEADER_NAME = "x-garmingo-status-key";
+
 export class StatusAPI {
   private readonly apiKey: string;
 
