@@ -35,7 +35,7 @@ export type StatusEvent = {
   /**
    * Metadata of the Event.
    */
-  metadata: any;
+  metadata: Map<string, any>;
 };
 
 /**
@@ -49,7 +49,9 @@ export function buildEventObject(event: any): StatusEvent {
     monitorId: event.monitor_id,
     status: event.status,
     timestamp: new Date(event.timestamp),
-    metadata: event.metadata,
+    metadata: event.metadata
+      ? new Map(Object.entries(event.metadata))
+      : new Map(),
   };
 }
 
