@@ -305,3 +305,95 @@ describe("Retrieve Monitor Events", () => {
     expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
   });
 });
+
+describe("Retrieve Monitor Uptime", () => {
+  test("Get uptime for a monitor", async () => {
+    const result = await statusAPI.monitors.getAll();
+
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
+
+    const monitor = result.data.monitors[0];
+
+    const uptimeResult = await statusAPI.monitors.getUptime(monitor.id, "24h");
+
+    expect(uptimeResult.success).toBe(true);
+
+    if (!uptimeResult.success) {
+      return;
+    }
+
+    expect(uptimeResult.data).toBeDefined();
+    // Be a number
+    expect(uptimeResult.data).toEqual(expect.any(Number));
+  });
+
+  test("Fail when ID is empty", async () => {
+    const result = await statusAPI.monitors.getUptime(
+      null as unknown as string,
+      "24h"
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when ID does not exist", async () => {
+    const result = await statusAPI.monitors.getUptime(
+      "313233343536373839303132",
+      "24h"
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+
+  test("Fail when ID is too long", async () => {
+    const result = await statusAPI.monitors.getUptime("a".repeat(256), "24h");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+
+    expect(
+      [ERROR_CODE.BAD_REQUEST, ERROR_CODE.NOT_FOUND].includes(result.errorCode)
+    ).toBe(true);
+  });
+
+  test("Fail when ID is too short", async () => {
+    const result = await statusAPI.monitors.getUptime("a", "24h");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when timespan is invalid", async () => {
+    const result = await statusAPI.monitors.getUptime(
+      "a".repeat(24),
+      "invalid" as any
+    );
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+});
