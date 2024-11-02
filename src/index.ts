@@ -4,7 +4,17 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
-import { Monitor, MonitorCreate, MonitorUpdate } from "./monitor";
+import {
+  getAllMonitors,
+  getMonitorEvents,
+  getMonitor,
+  Monitor,
+  MonitorCreate,
+  MonitorUpdate,
+  createMonitor,
+  updateMonitor,
+  deleteMonitor,
+} from "./monitor";
 
 export class StatusAPI {
   private readonly apiKey: string;
@@ -19,95 +29,36 @@ export class StatusAPI {
   public monitors = {
     /**
      * Get all Monitors.
+     * @param limit - Number of Monitors to return.
+     * @param page - Page number to return.
+     * @returns All Monitors.
      */
-    getAll: async (
-      limit?: number,
-      page?: number
-    ): Promise<
-      | {
-          success: true;
-          data: Monitor[];
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    getAll: async (limit?: number, page?: number) => {
+      return await getAllMonitors(this.apiKey, limit, page);
     },
 
     /**
      * Get a Monitor by its ID.
      * @param id - ID of the Monitor.
      */
-    get: async (
-      id: string
-    ): Promise<
-      | {
-          success: true;
-          data: Monitor;
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    get: async (id: string) => {
+      return await getMonitor(this.apiKey, id);
     },
 
     /**
      * Get all Events for a monitor.
      * @param id - ID of the Monitor.
      */
-    getEvents: async (
-      id: string,
-      limit?: number,
-      page?: number
-    ): Promise<
-      | {
-          success: true;
-          data: Event[];
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    getEvents: async (id: string, limit?: number, page?: number) => {
+      return await getMonitorEvents(this.apiKey, id, limit, page);
     },
 
     /**
      * Create a new Monitor.
      * @param monitor - Monitor to create.
      */
-    create: async (
-      monitor: MonitorCreate
-    ): Promise<
-      | {
-          success: true;
-          /**
-           * ID of the created Monitor.
-           */
-          data: string;
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    create: async (monitor: MonitorCreate) => {
+      return await createMonitor(this.apiKey, monitor);
     },
 
     /**
@@ -115,43 +66,16 @@ export class StatusAPI {
      * @param id - ID of the Monitor.
      * @param monitor - The fields to update.
      */
-    update: async (
-      id: string,
-      monitor: MonitorUpdate
-    ): Promise<
-      | {
-          success: true;
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    update: async (id: string, monitor: MonitorUpdate) => {
+      return await updateMonitor(this.apiKey, id, monitor);
     },
 
     /**
      * Delete a Monitor by its ID.
      * @param id - ID of the Monitor.
      */
-    delete: async (
-      id: string
-    ): Promise<
-      | {
-          success: true;
-        }
-      | {
-          success: false;
-          message: string;
-        }
-    > => {
-      return {
-        success: false,
-        message: "Not implemented",
-      };
+    delete: async (id: string) => {
+      return await deleteMonitor(this.apiKey, id);
     },
   };
 }

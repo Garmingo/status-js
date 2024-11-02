@@ -261,3 +261,161 @@ export type MonitorUpdate = {
    */
   proxyPassword?: string;
 };
+
+/**
+ * Get all Monitors.
+ * @param limit - Number of Monitors to return.
+ * @param page - Page number to return.
+ * @returns All Monitors.
+ */
+export async function getAllMonitors(
+  apiKey: string,
+  limit?: number,
+  page?: number
+): Promise<
+  | {
+      success: true;
+      data: Monitor[];
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
+
+/**
+ * Get a Monitor by its ID.
+ * @param id - ID of the Monitor.
+ */
+export async function getMonitor(
+  apiKey: string,
+  id: string
+): Promise<
+  | {
+      success: true;
+      data: Monitor;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
+
+/**
+ * Get all Events for a monitor.
+ * @param id - ID of the Monitor.
+ */
+export async function getMonitorEvents(
+  apiKey: string,
+  id: string,
+  limit?: number,
+  page?: number
+): Promise<
+  | {
+      success: true;
+      data: Event[];
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
+
+/**
+ * Create a new Monitor.
+ * @param monitor - Monitor to create.
+ */
+export async function createMonitor(
+  apiKey: string,
+  monitor: MonitorCreate
+): Promise<
+  | {
+      success: true;
+      /**
+       * ID of the created Monitor.
+       */
+      data: string;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
+
+/**
+ * Update a Monitor by its ID.
+ * @param id - ID of the Monitor.
+ * @param monitor - The fields to update.
+ */
+export async function updateMonitor(
+  apiKey: string,
+  id: string,
+  monitor: MonitorUpdate
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
+
+/**
+ * Delete a Monitor by its ID.
+ * @param id - ID of the Monitor.
+ */
+export async function deleteMonitor(
+  apiKey: string,
+  id: string
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: number;
+    }
+> {
+  return {
+    success: false,
+    message: "Not implemented",
+    errorCode: 0,
+  };
+}
