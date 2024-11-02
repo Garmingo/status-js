@@ -184,27 +184,41 @@ describe("Search Monitors", () => {
   });
 });
 
-test("Get a list of monitors", async () => {
-  const statusAPI = new StatusAPI(process.env.API_KEY as string);
+describe("Retrieve specific Monitor", () => {
+  test("Get a monitor by its ID", async () => {
+    const result = await statusAPI.monitors.getAll();
 
-  const result = await statusAPI.monitors.getAll();
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
 
-  expect(result.success).toBe(true);
-});
+    const monitor = result.data.monitors[0];
 
-test("Get a monitor by its ID", async () => {
-  const statusAPI = new StatusAPI(process.env.API_KEY as string);
+    const monitorResult = await statusAPI.monitors.get(monitor.id);
 
-  const result = await statusAPI.monitors.getAll();
+    expect(monitorResult.success).toBe(true);
+  });
 
-  if (!result.success) {
-    expect(result.success).toBe(true);
-    return;
-  }
+  test("Fail when ID is empty", async () => {
+    const result = await statusAPI.monitors.get("");
 
-  const monitor = result.data.monitors[0];
+    expect(result.success).toBe(false);
 
-  const monitorResult = await statusAPI.monitors.get(monitor.id);
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
 
-  expect(monitorResult.success).toBe(true);
+  test("Fail when ID does not exist", async () => {
+    const result = await statusAPI.monitors.get("a".repeat(256));
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
 });
