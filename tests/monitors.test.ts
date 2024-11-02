@@ -511,8 +511,6 @@ describe("Monitor CRUD Lifecycle", () => {
       },
     });
 
-    console.log(createResult);
-
     expect(createResult.success).toBe(true);
 
     if (!createResult.success) {
