@@ -167,8 +167,6 @@ describe("Search Monitors", () => {
       1000000
     );
 
-    console.log(result);
-
     expect(result.success).toBe(true);
     if (!result.success) {
       return;
