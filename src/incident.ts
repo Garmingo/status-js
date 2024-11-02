@@ -72,7 +72,7 @@ export type StatusIncident = {
    * Metadata.
    * Additional data about the Incident.
    */
-  metadata?: any;
+  metadata?: Map<string, any>;
 };
 
 /**
@@ -174,6 +174,8 @@ function buildIncidentObject(incident: any): StatusIncident {
     eventIds: incident.event_ids,
     start: new Date(incident.start),
     end: incident.end ? new Date(incident.end) : undefined,
-    metadata: incident.metadata,
+    metadata: incident.metadata
+      ? new Map(Object.entries(incident.metadata))
+      : undefined,
   };
 }
