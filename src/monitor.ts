@@ -357,10 +357,10 @@ export async function getAllMonitors(
 export async function searchMonitors(
   apiKey: string,
   search: {
-    query: string;
-    status: "online" | "offline";
-    regions: StatusRegion[];
-    types: MonitorType[];
+    query?: string;
+    status?: "online" | "offline";
+    regions?: StatusRegion[];
+    types?: MonitorType[];
   },
   limit?: number,
   page?: number
@@ -385,10 +385,11 @@ export async function searchMonitors(
     }
 > {
   const searchParams = new URLSearchParams();
-  searchParams.append("query", search.query);
-  searchParams.append("status", search.status);
-  searchParams.append("regions", JSON.stringify(search.regions));
-  searchParams.append("types", JSON.stringify(search.types));
+  if (search.query) searchParams.append("query", search.query);
+  if (search.status) searchParams.append("status", search.status);
+  if (search.regions)
+    searchParams.append("regions", JSON.stringify(search.regions));
+  if (search.types) searchParams.append("types", JSON.stringify(search.types));
   if (limit) searchParams.append("limit", limit.toString());
   if (page) searchParams.append("page", page.toString());
 
