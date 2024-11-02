@@ -13,6 +13,9 @@ export class StatusAPI {
     this.apiKey = apiKey;
   }
 
+  /**
+   * All CRUD Functions that can be performed on Monitors.
+   */
   public monitors = monitors;
 }
 
