@@ -18,6 +18,7 @@ import {
   MonitorType,
   getMonitorUptime,
   getMonitorResponseTime,
+  sendHeartbeat,
 } from "./monitor";
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
@@ -130,6 +131,20 @@ export class StatusAPI {
      */
     delete: async (id: string) => {
       return await deleteMonitor(this.apiKey, id);
+    },
+
+    /**
+     * Send a Heartbeat to the Monitor.
+     * @param token - Heartbeat token.
+     *
+     * @remarks
+     * This function is used to send a heartbeat to the Monitor.
+     * It only works for Monitors of type `heartbeat`.
+     *
+     * The heartbeat token is generated when the Monitor is created and can be obtained from the Dashboard.
+     */
+    sendHeartbeat: async (token: string, fail = false) => {
+      return await sendHeartbeat(token, fail);
     },
   };
 }

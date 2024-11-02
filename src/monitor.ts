@@ -897,7 +897,6 @@ export async function deleteMonitor(
  * The heartbeat token is generated when the Monitor is created and can be obtained from the Dashboard.
  */
 export async function sendHeartbeat(
-  apiKey: string,
   token: string,
   fail = false
 ): Promise<
@@ -916,7 +915,6 @@ export async function sendHeartbeat(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        [HEADER_NAME]: apiKey,
       },
     }
   );
