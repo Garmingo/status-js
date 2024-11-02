@@ -1,10 +1,25 @@
 /*
- *   Copyright (c) 2023 Garmingo
+ *   Copyright (c) 2024 Garmingo UG (haftungsbeschraenkt)
  *   All rights reserved.
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
-export function add(a: number, b: number): number {
-  return a + b;
+
+import monitors from "./monitor";
+
+export class StatusAPI {
+  private readonly apiKey: string;
+
+  constructor(apiKey: Readonly<string>) {
+    this.apiKey = apiKey;
+  }
+
+  public monitors = monitors;
 }
 
-console.log(add(3, 5)); //output: 8
+export {
+  Monitor,
+  MonitorCreate,
+  MonitorUpdate,
+  Proxy,
+  StatusRegion,
+} from "./monitor";
