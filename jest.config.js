@@ -4,6 +4,8 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 module.exports = {
-    preset: "ts-jest",
-    testEnvironment: "node",
-  };
+  preset: "ts-jest",
+  testEnvironment: "node",
+  // Get environment variables from .env file
+  setupFiles: ["dotenv/config"],
+};
