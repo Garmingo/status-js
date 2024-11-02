@@ -188,6 +188,13 @@ describe("Retrieve specific Monitor", () => {
     const monitorResult = await statusAPI.monitors.get(monitor.id);
 
     expect(monitorResult.success).toBe(true);
+
+    if (!monitorResult.success) {
+      return;
+    }
+
+    expect(monitorResult.data).toBeDefined();
+    expect(monitorResult.data.id).toBe(monitor.id);
   });
 
   test("Fail when ID is empty", async () => {
