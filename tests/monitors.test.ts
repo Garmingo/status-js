@@ -4,7 +4,7 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
-import { StatusAPI } from "../src";
+import { MonitorStatus, StatusAPI } from "../src";
 import { ERROR_CODE } from "../src/error";
 
 const statusAPI = new StatusAPI(process.env.API_KEY as string);
@@ -580,7 +580,9 @@ describe("Monitor CRUD Lifecycle", () => {
   });
 
   test("Fail when deleting a Monitor that does not exist", async () => {
-    const deleteResult = await statusAPI.monitors.delete("123");
+    const deleteResult = await statusAPI.monitors.delete(
+      "313233343536373839303132"
+    );
 
     expect(deleteResult.success).toBe(false);
 
@@ -588,5 +590,80 @@ describe("Monitor CRUD Lifecycle", () => {
       return;
     }
     expect(deleteResult.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+});
+
+describe("Set Monitor Status", () => {
+  test("Set a Monitor to online", async () => {
+    const result = await statusAPI.monitors.getAll();
+
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
+
+    const monitor = result.data.monitors[0];
+
+    const setStatusResult = await statusAPI.monitors.setStatus(
+      monitor.id,
+      MonitorStatus.ONLINE
+    );
+
+    expect(setStatusResult.success).toBe(true);
+  });
+
+  test("Set a Monitor to offline", async () => {
+    const result = await statusAPI.monitors.getAll();
+
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
+
+    const monitor = result.data.monitors[0];
+
+    const setStatusResult = await statusAPI.monitors.setStatus(
+      monitor.id,
+      MonitorStatus.OFFLINE
+    );
+
+    expect(setStatusResult.success).toBe(true);
+  });
+
+  test("Fail when setting a Monitor to an invalid status", async () => {
+    const result = await statusAPI.monitors.getAll();
+
+    if (!result.success) {
+      expect(result.success).toBe(true);
+      return;
+    }
+
+    const monitor = result.data.monitors[0];
+
+    const setStatusResult = await statusAPI.monitors.setStatus(
+      monitor.id,
+      "invalid" as any
+    );
+
+    expect(setStatusResult.success).toBe(false);
+
+    if (setStatusResult.success) {
+      return;
+    }
+    expect(setStatusResult.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when setting a Monitor to an invalid ID", async () => {
+    const setStatusResult = await statusAPI.monitors.setStatus(
+      "123",
+      MonitorStatus.ONLINE
+    );
+
+    expect(setStatusResult.success).toBe(false);
+
+    if (setStatusResult.success) {
+      return;
+    }
+    expect(setStatusResult.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
   });
 });
