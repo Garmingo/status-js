@@ -6,6 +6,7 @@
 
 import { BASE_URL, HEADER_NAME } from ".";
 import { ERROR_CODE } from "./error";
+import { StatusEvent } from "./event";
 
 /**
  * Geographical region from where the Monitor will be checked.
@@ -499,7 +500,10 @@ export async function getMonitorEvents(
 ): Promise<
   | {
       success: true;
-      data: Event[];
+      data: {
+        events: StatusEvent[];
+        count: number;
+      };
     }
   | {
       success: false;
@@ -507,10 +511,49 @@ export async function getMonitorEvents(
       errorCode: ERROR_CODE;
     }
 > {
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.append("limit", limit.toString());
+  if (page) searchParams.append("page", page.toString());
+
+  const response = await fetch(
+    BASE_URL +
+      `/monitors/${id}/events` +
+      (searchParams.size > 0 ? `?${searchParams.toString()}` : ""),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        [HEADER_NAME]: apiKey,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
   return {
-    success: false,
-    message: "Not implemented",
-    errorCode: ERROR_CODE.NOT_IMPLEMENTED,
+    success: true,
+    data: {
+      events: responseData.data.events,
+      count: responseData.data.count,
+    },
   };
 }
 
