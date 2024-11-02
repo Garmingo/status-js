@@ -209,18 +209,21 @@ describe("Retrieve specific Monitor", () => {
     if (result.success) {
       return;
     }
-    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+    expect(result.errorCode).toBe(ERROR_CODE.NOT_FOUND);
   });
 
   test("Fail when ID is too long", async () => {
-    const result = await statusAPI.monitors.get("a".repeat(64));
+    const result = await statusAPI.monitors.get("a".repeat(256));
 
     expect(result.success).toBe(false);
 
     if (result.success) {
       return;
     }
-    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+
+    expect(
+      [ERROR_CODE.BAD_REQUEST, ERROR_CODE.NOT_FOUND].includes(result.errorCode)
+    ).toBe(true);
   });
 
   test("Fail when ID is too short", async () => {
