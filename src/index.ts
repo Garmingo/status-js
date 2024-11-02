@@ -214,4 +214,8 @@ export {
 
 export { StatusEvent } from "./event";
 
-export { StatusIncident } from "./incident";
+export {
+  StatusIncident,
+  StatusIncidentUpdate,
+  StatusIncidentCreate,
+} from "./incident";
