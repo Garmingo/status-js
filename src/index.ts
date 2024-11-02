@@ -187,6 +187,21 @@ export class StatusAPI {
       return await getEvent(this.apiKey, id);
     },
   };
+
+  /**
+   * All Functions that can be performed related to Incidents.
+   */
+  public incidents = {
+    getAll: async () => {},
+
+    get: async () => {},
+
+    create: async () => {},
+
+    update: async () => {},
+
+    delete: async () => {},
+  };
 }
 
 export {
