@@ -1002,3 +1002,56 @@ export async function pauseMonitor(
     success: true,
   };
 }
+
+/**
+ * Set the status of a Monitor.
+ * @param id - ID of the Monitor.
+ * @param status - Status of the Monitor.
+ */
+export async function setMonitorStatus(
+  apiKey: string,
+  id: string,
+  status: MonitorStatus
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + `/monitors/${id}/status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+  };
+}

@@ -20,6 +20,7 @@ import {
   getMonitorResponseTime,
   sendHeartbeat,
   pauseMonitor,
+  setMonitorStatus,
 } from "./monitor";
 
 export const BASE_URL = "https://garmingo.com/api/status/v1";
@@ -160,6 +161,15 @@ export class StatusAPI {
      */
     pause: async (id: string, duration: number) => {
       return await pauseMonitor(this.apiKey, id, duration);
+    },
+
+    /**
+     * Set the status of a Monitor.
+     * @param id - ID of the Monitor.
+     * @param status - Status of the Monitor.
+     */
+    setStatus: async (id: string, status: MonitorStatus) => {
+      return await setMonitorStatus(this.apiKey, id, status);
     },
   };
 }
