@@ -161,7 +161,7 @@ export type MonitorCreate = {
   /**
    * Checking interval in seconds.
    */
-  ttl?: number;
+  ttl: number;
 
   /**
    * Type of the Monitor.
