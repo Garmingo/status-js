@@ -296,13 +296,101 @@ export async function getAllMonitors(
       errorCode: ERROR_CODE;
     }
 > {
-  const response = await fetch(BASE_URL + "/monitors", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      [HEADER_NAME]: apiKey,
+  const searchParams = new URLSearchParams();
+  if (limit) searchParams.append("limit", limit.toString());
+  if (page) searchParams.append("page", page.toString());
+
+  const response = await fetch(
+    BASE_URL +
+      "/monitors" +
+      (searchParams.size > 0 ? `?${searchParams.toString()}` : ""),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        [HEADER_NAME]: apiKey,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      monitors: responseData.data.monitors,
+      count: responseData.data.count,
     },
-  });
+  };
+}
+
+/**
+ * Get all Monitors.
+ * @param query - Search query to filter Monitors.
+ * @param limit - Number of Monitors to return.
+ * @param page - Page number to return.
+ * @returns All Monitors.
+ */
+export async function searchMonitors(
+  apiKey: string,
+  query: string,
+  limit?: number,
+  page?: number
+): Promise<
+  | {
+      success: true;
+      data: {
+        /**
+         * List of Monitors.
+         */
+        monitors: Monitor[];
+        /**
+         * Total number of Monitors.
+         */
+        count: number;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const searchParams = new URLSearchParams();
+  searchParams.append("query", query);
+  if (limit) searchParams.append("limit", limit.toString());
+  if (page) searchParams.append("page", page.toString());
+
+  const response = await fetch(
+    BASE_URL +
+      "/monitors/search" +
+      (searchParams.size > 0 ? `?${searchParams.toString()}` : ""),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        [HEADER_NAME]: apiKey,
+      },
+    }
+  );
 
   if (!response.ok) {
     const errorMessage = (await response.json()).message ?? response.statusText;
