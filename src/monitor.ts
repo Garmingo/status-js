@@ -300,7 +300,7 @@ export async function getAllMonitors(
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      HEADER_NAME: apiKey,
+      [HEADER_NAME]: apiKey,
     },
   });
 
