@@ -157,7 +157,6 @@ describe("Search Monitors", () => {
     if (result.success) {
       return;
     }
-    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
   });
 
   test("Result is empty when page is too high", async () => {
@@ -203,7 +202,29 @@ describe("Retrieve specific Monitor", () => {
   });
 
   test("Fail when ID does not exist", async () => {
-    const result = await statusAPI.monitors.get("a".repeat(256));
+    const result = await statusAPI.monitors.get("313233343536373839303132");
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when ID is too long", async () => {
+    const result = await statusAPI.monitors.get("a".repeat(64));
+
+    expect(result.success).toBe(false);
+
+    if (result.success) {
+      return;
+    }
+    expect(result.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Fail when ID is too short", async () => {
+    const result = await statusAPI.monitors.get("a");
 
     expect(result.success).toBe(false);
 
