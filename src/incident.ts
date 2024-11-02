@@ -76,6 +76,47 @@ export type StatusIncident = {
 };
 
 /**
+ * Status Incident CRUD Operation Create.
+ */
+export type StatusIncidentCreate = {
+  /**
+   * Incident Title.
+   * Short description of the Incident.
+   */
+  title: string;
+
+  /**
+   * Incident Description.
+   * Detailed description of the Incident.
+   */
+  description?: string;
+
+  /**
+   * Incident Status.
+   * Cosmetic status of the resolving process.
+   */
+  status?: string;
+
+  /**
+   * Resolve When Online.
+   * Whether the Incident should be resolved when the Monitor is online.
+   */
+  resolveWhenOnline?: boolean;
+
+  /**
+   * Monitor IDs.
+   * Monitors affected by the Incident.
+   */
+  monitorIds?: string[];
+
+  /**
+   * Event IDs.
+   * Events that triggered the Incident.
+   */
+  eventIds: string[];
+};
+
+/**
  * Build an Incident Object from the API Response.
  * @param incident - Incident Object from the API.
  * @returns Incident Object.
