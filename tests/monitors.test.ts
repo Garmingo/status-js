@@ -502,13 +502,15 @@ describe("Monitor CRUD Lifecycle", () => {
       retries: 3,
       ttl: 60,
       type: "http",
-      settings: {
-        url: "https://example.com",
-        method: "GET",
-        headers: {
-          "User-Agent": "StatusAPI",
-        },
-      },
+      settings: new Map(
+        Object.entries({
+          url: "https://example.com",
+          method: "GET",
+          headers: {
+            "User-Agent": "StatusAPI",
+          },
+        })
+      ),
     });
 
     expect(createResult.success).toBe(true);
