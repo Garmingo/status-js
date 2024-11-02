@@ -8,7 +8,6 @@ import {
   getAllMonitors,
   getMonitorEvents,
   getMonitor,
-  Monitor,
   MonitorCreate,
   MonitorUpdate,
   createMonitor,
