@@ -943,3 +943,61 @@ export async function sendHeartbeat(
     success: true,
   };
 }
+
+/**
+ * Temporarily pause a Monitor.
+ * @param id - ID of the Monitor.
+ * @param duration - Duration in seconds to pause the Monitor. 1 minute (60) minimum. 12 hours (43.200) maximum.
+ *
+ * @remarks
+ * This function is used to pause a Monitor for a specific duration.
+ * The Monitor will not be checked during this time.
+ * This is especially useful for maintenance or debugging purposes e.g. in CI/CD pipelines.
+ */
+export async function pauseMonitor(
+  apiKey: string,
+  id: string,
+  duration: number
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + `/monitors/${id}/pause`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+    body: JSON.stringify({ duration }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
