@@ -4,7 +4,7 @@
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
 
-import { BASE_URL, HEADER_NAME } from ".";
+import { BASE_URL, HEADER_NAME, MonitorStatus } from ".";
 import { ERROR_CODE } from "./error";
 import { buildEventObject, StatusEvent } from "./event";
 
@@ -146,7 +146,7 @@ export type Monitor = {
    * Current status of the Monitor.
    * True if the Monitor is up, false if the Monitor is down.
    */
-  currentStatus: boolean;
+  currentStatus: MonitorStatus;
 };
 
 /**
