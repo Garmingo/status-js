@@ -191,7 +191,7 @@ describe("Retrieve specific Monitor", () => {
   });
 
   test("Fail when ID is empty", async () => {
-    const result = await statusAPI.monitors.get("");
+    const result = await statusAPI.monitors.get(null as unknown as string);
 
     expect(result.success).toBe(false);
 
