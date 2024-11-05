@@ -1,6 +1,7 @@
 # Garmingo Status JS-SDK
 
 ![Tests Workflow](https://github.com/Garmingo/status-js/actions/workflows/node.js.yml/badge.svg)
+![SonarQube Analysis](https://github.com/Garmingo/status-js/actions/workflows/sonar-build.yml/badge.svg)
 
 This is the official Garmingo Status JS-SDK. It allows you to easily integrate the Garmingo Status into your website or Node.js application.<br />
 It fully supports the Garmingo Status API spec (described [here](https://docs.garmingo.com/status/api-introduction)) and provides a simple and easy-to-use interface to interact with the Garmingo Status.
