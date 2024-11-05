@@ -14,6 +14,7 @@
     "prepack": "npm run build"
   },
   "author": "Garmingo Unternehmergesellschaft (haftungsbeschränkt)",
+  "publisher": "Garmingo Unternehmergesellschaft (haftungsbeschränkt)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Garmingo/status-js.git"
