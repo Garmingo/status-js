@@ -111,12 +111,6 @@ export type StatusIncidentCreate = {
    * Monitors affected by the Incident.
    */
   monitorIds?: string[];
-
-  /**
-   * Event IDs.
-   * Events that triggered the Incident.
-   */
-  eventIds: string[];
 };
 
 /**
