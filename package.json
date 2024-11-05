@@ -13,7 +13,7 @@
     "test": "jest",
     "prepack": "npm run build"
   },
-  "author": "Garmingo",
+  "author": "Garmingo Unternehmergesellschaft (haftungsbeschränkt)",
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/jest": "^29.5.14",
