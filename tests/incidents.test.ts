@@ -93,7 +93,6 @@ describe("Create, Update, Delete Incident", () => {
       status: "Identified",
       resolved: true,
       resolveWhenOnline: true,
-      monitorIds: [],
     } satisfies StatusIncidentUpdate;
 
     const updateResponse = await statusAPI.incidents.update(
