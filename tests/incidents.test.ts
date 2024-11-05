@@ -3,7 +3,7 @@
  *   All rights reserved.
  *   Unauthorized use, reproduction, and distribution of this source code is strictly prohibited.
  */
-import { StatusAPI } from "../src";
+import { StatusAPI, StatusIncidentCreate, StatusIncidentUpdate } from "../src";
 import { ERROR_CODE } from "../src/error";
 
 const statusAPI = new StatusAPI(process.env.API_KEY as string);
@@ -52,5 +52,63 @@ describe("Get specific Incident", () => {
     }
 
     expect(incidentResponse.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+});
+
+describe("Create, Update, Delete Incident", () => {
+  test("Full Incident Lifecycle", async () => {
+    const monitorResponse = await statusAPI.monitors.getAll(1);
+
+    expect(monitorResponse.success).toBe(true);
+
+    if (!monitorResponse.success) {
+      return;
+    }
+
+    const monitor = monitorResponse.data.monitors[0];
+
+    const incidentCreate = {
+      title: "Test Incident",
+      description: "Test Incident Description",
+      status: "Investigating",
+      resolveWhenOnline: false,
+      monitorIds: [monitor.id],
+    } satisfies StatusIncidentCreate;
+
+    const createResponse = await statusAPI.incidents.create(incidentCreate);
+
+    expect(createResponse.success).toBe(true);
+
+    if (!createResponse.success) {
+      return;
+    }
+
+    const createdIncidentId = createResponse.data.id;
+
+    expect(createdIncidentId).toBeDefined();
+
+    const incidentUpdate = {
+      title: "Test Incident Updated",
+      description: "Test Incident Description Updated",
+      status: "Identified",
+      resolved: true,
+      resolveWhenOnline: true,
+      monitorIds: [],
+    } satisfies StatusIncidentUpdate;
+
+    const updateResponse = await statusAPI.incidents.update(
+      createdIncidentId,
+      incidentUpdate
+    );
+
+    expect(updateResponse.success).toBe(true);
+
+    if (!updateResponse.success) {
+      return;
+    }
+
+    const deleteResponse = await statusAPI.incidents.delete(createdIncidentId);
+
+    expect(deleteResponse.success).toBe(true);
   });
 });
