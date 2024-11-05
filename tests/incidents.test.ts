@@ -111,4 +111,87 @@ describe("Create, Update, Delete Incident", () => {
 
     expect(deleteResponse.success).toBe(true);
   });
+
+  test("Create Incident with Invalid Monitor ID", async () => {
+    const incidentCreate = {
+      title: "Test Incident",
+      description: "Test Incident Description",
+      status: "Investigating",
+      resolveWhenOnline: false,
+      monitorIds: ["33333338a7221ba8f0ad8f0f"],
+    } satisfies StatusIncidentCreate;
+
+    const createResponse = await statusAPI.incidents.create(incidentCreate);
+
+    expect(createResponse.success).toBe(false);
+
+    if (createResponse.success) {
+      return;
+    }
+
+    expect(createResponse.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+
+  test("Update Incident with Invalid ID", async () => {
+    const incidentUpdate = {
+      title: "Test Incident Updated",
+      description: "Test Incident Description Updated",
+      status: "Identified",
+      resolved: true,
+      resolveWhenOnline: true,
+      monitorIds: [],
+    } satisfies StatusIncidentUpdate;
+
+    const updateResponse = await statusAPI.incidents.update(
+      "33333338a7221ba8f0ad8f0f",
+      incidentUpdate
+    );
+
+    expect(updateResponse.success).toBe(false);
+
+    if (updateResponse.success) {
+      return;
+    }
+
+    expect(updateResponse.errorCode).toBe(ERROR_CODE.NOT_FOUND);
+  });
+
+  test("Create Incident without Title", async () => {
+    const incidentCreate = {
+      description: "Test Incident Description",
+      status: "Investigating",
+      resolveWhenOnline: false,
+      monitorIds: [],
+    } as any;
+
+    const createResponse = await statusAPI.incidents.create(incidentCreate);
+
+    expect(createResponse.success).toBe(false);
+
+    if (createResponse.success) {
+      return;
+    }
+
+    expect(createResponse.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
+
+  test("Create Incident with empty Monitor IDs", async () => {
+    const incidentCreate = {
+      title: "Test Incident",
+      description: "Test Incident Description",
+      status: "Investigating",
+      resolveWhenOnline: false,
+      monitorIds: [],
+    } satisfies StatusIncidentCreate;
+
+    const createResponse = await statusAPI.incidents.create(incidentCreate);
+
+    expect(createResponse.success).toBe(false);
+
+    if (createResponse.success) {
+      return;
+    }
+
+    expect(createResponse.errorCode).toBe(ERROR_CODE.BAD_REQUEST);
+  });
 });
