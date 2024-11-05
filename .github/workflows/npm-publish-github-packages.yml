@@ -15,6 +15,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Create Env file
+        run: |
+          touch .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo WORKING_EVENT_ID=${{ secrets.WORKING_EVENT_ID }} >> .env
       - run: npm ci
       - run: npm test
 
