@@ -27,6 +27,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - name: Create Env file
+        run: |
+          touch .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo WORKING_EVENT_ID=${{ secrets.WORKING_EVENT_ID }} >> .env
       - name: Install dependencies
         run: npm ci
       - name: Test and coverage
