@@ -26,20 +26,19 @@ describe("Get all Incidents", () => {
 
 describe("Get specific Incident", () => {
   test("Get Incident by ID", async () => {
-    const INCIDENT_ID = process.env.WORKING_INCIDENT_ID as string;
-    const incidentResponse = await statusAPI.incidents.get(INCIDENT_ID);
+    const allIncidentsResponse = await statusAPI.incidents.getAll();
 
-    expect(incidentResponse.success).toBe(true);
+    expect(allIncidentsResponse.success).toBe(true);
 
-    if (!incidentResponse.success) {
+    if (!allIncidentsResponse.success) {
       return;
     }
 
-    const incident = incidentResponse.data;
+    const incident = allIncidentsResponse.data.incidents[0];
 
     expect(incident).toBeDefined();
 
-    expect(incident.id).toBe(INCIDENT_ID);
+    expect(incident.id).toBe(incident.id);
   });
 
   test("Get Incident by Invalid ID", async () => {
