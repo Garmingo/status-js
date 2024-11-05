@@ -10,6 +10,8 @@ import {
   getAllIncidents,
   getIncident,
   StatusIncidentCreate,
+  StatusIncidentUpdate,
+  updateIncident,
 } from "./incident";
 import {
   getAllMonitors,
@@ -224,7 +226,14 @@ export class StatusAPI {
       return await createIncident(this.apiKey, incident);
     },
 
-    update: async () => {},
+    /**
+     * Update an Incident by its ID.
+     * @param id - ID of the Incident.
+     * @param incident - The fields to update.
+     */
+    update: async (id: string, incident: StatusIncidentUpdate) => {
+      return await updateIncident(this.apiKey, id, incident);
+    },
 
     delete: async () => {},
   };

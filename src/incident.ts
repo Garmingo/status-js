@@ -369,3 +369,56 @@ export async function createIncident(
     data: responseData.data,
   };
 }
+
+/**
+ * Update an Incident by its ID.
+ * @param id - ID of the Incident.
+ * @param incident - The fields to update.
+ */
+export async function updateIncident(
+  apiKey: string,
+  id: string,
+  incident: StatusIncidentUpdate
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + `/incidents/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+    body: JSON.stringify(incident),
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+  };
+}
