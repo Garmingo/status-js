@@ -310,3 +310,62 @@ export async function getIncident(
     data: buildIncidentObject(responseData.data),
   };
 }
+
+/**
+ * Create a new Incident.
+ * @param incident - Incident to create.
+ */
+export async function createIncident(
+  apiKey: string,
+  incident: StatusIncidentCreate
+): Promise<
+  | {
+      success: true;
+
+      data: {
+        /**
+         * ID of the created incident.
+         */
+        id: string;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + "/incidents", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+    body: JSON.stringify(incident),
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+    data: responseData.data,
+  };
+}

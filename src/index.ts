@@ -5,7 +5,12 @@
  */
 
 import { getEvent } from "./event";
-import { getAllIncidents, getIncident } from "./incident";
+import {
+  createIncident,
+  getAllIncidents,
+  getIncident,
+  StatusIncidentCreate,
+} from "./incident";
 import {
   getAllMonitors,
   getMonitorEvents,
@@ -211,7 +216,13 @@ export class StatusAPI {
       return await getIncident(this.apiKey, id);
     },
 
-    create: async () => {},
+    /**
+     * Create a new Incident.
+     * @param incident - Incident to create.
+     */
+    create: async (incident: StatusIncidentCreate) => {
+      return await createIncident(this.apiKey, incident);
+    },
 
     update: async () => {},
 
