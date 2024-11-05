@@ -14,6 +14,11 @@
     "prepack": "npm run build"
   },
   "author": "Garmingo Unternehmergesellschaft (haftungsbeschränkt)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Garmingo/status-js.git"
+  },
+  "homepage": "https://github.com/Garmingo/status-js",
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/jest": "^29.5.14",
@@ -23,5 +28,9 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
