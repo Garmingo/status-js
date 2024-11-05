@@ -422,3 +422,53 @@ export async function updateIncident(
     success: true,
   };
 }
+
+/**
+ * Delete an Incident by its ID.
+ * @param id - ID of the Incident.
+ */
+export async function deleteIncident(
+  apiKey: string,
+  id: string
+): Promise<
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+      errorCode: ERROR_CODE;
+    }
+> {
+  const response = await fetch(BASE_URL + `/incidents/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      [HEADER_NAME]: apiKey,
+    },
+  });
+
+  if (!response.ok) {
+    const errorMessage = (await response.json()).message ?? response.statusText;
+
+    return {
+      success: false,
+      message: errorMessage,
+      errorCode: response.status,
+    };
+  }
+
+  const responseData = await response.json();
+
+  if (!responseData.success) {
+    return {
+      success: false,
+      message: responseData.message,
+      errorCode: response.status ?? ERROR_CODE.BAD_REQUEST,
+    };
+  }
+
+  return {
+    success: true,
+  };
+}

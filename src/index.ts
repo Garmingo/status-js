@@ -7,6 +7,7 @@
 import { getEvent } from "./event";
 import {
   createIncident,
+  deleteIncident,
   getAllIncidents,
   getIncident,
   StatusIncidentCreate,
@@ -235,7 +236,13 @@ export class StatusAPI {
       return await updateIncident(this.apiKey, id, incident);
     },
 
-    delete: async () => {},
+    /**
+     * Delete an Incident by its ID.
+     * @param id - ID of the Incident.
+     */
+    delete: async (id: string) => {
+      return await deleteIncident(this.apiKey, id);
+    },
   };
 }
 
