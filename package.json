@@ -21,6 +21,17 @@
     "url": "git+https://github.com/Garmingo/status-js.git"
   },
   "homepage": "https://garmingo.com/status",
+  "keywords": [
+    "garmingo",
+    "status",
+    "api",
+    "nodejs",
+    "uptime monitoring",
+    "uptime",
+    "monitoring",
+    "incident",
+    "incident management"
+  ],
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/jest": "^29.5.14",
