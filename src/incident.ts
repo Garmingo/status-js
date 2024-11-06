@@ -152,6 +152,18 @@ export type StatusIncidentUpdate = {
    * Monitors affected by the Incident.
    */
   monitorIds?: string[];
+
+  /**
+   * Start Time.
+   * Timestamp when the Incident started.
+   */
+  start?: Date;
+
+  /**
+   * End Time.
+   * Timestamp when the Incident ended.
+   */
+  end?: Date;
 };
 
 /**
