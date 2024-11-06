@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/Garmingo/status-js.git"
   },
-  "homepage": "https://github.com/Garmingo/status-js",
+  "homepage": "https://garmingo.com/status",
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/jest": "^29.5.14",
